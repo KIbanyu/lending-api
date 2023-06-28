@@ -22,5 +22,15 @@ public class ApplicationProps {
     @Value("${lending-config.test-phone-number}")
     private String testPhoneNumber;
 
+    @Value("${spring.datasource.url}")
+    private String databaseUrl;
+
+    @Value("${spring.datasource.username}")
+    private String databaseUserName;
+
+
+    @Value("${spring.datasource.password}")
+    private String databasePassword;
+
 
 }

@@ -375,4 +375,8 @@ public class LoanService {
     }
 
 
+    public void backupDb(){
+        AppUtil.backUpMySql();
+    }
+
 }

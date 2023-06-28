@@ -3,6 +3,9 @@ package lendingapi.utils;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+
+import java.io.File;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -86,6 +89,39 @@ public class AppUtil {
         calendar.setTimeInMillis(now);
 
         return outputDateFormat.format(calendar.getTime());
+    }
+
+
+    public static void backUpMySql(){
+        File file = new File("mysqlBackup");
+        File f = new File(file, new Timestamp(System.currentTimeMillis()).getTime() + ".sql");
+        String path = f.getPath();
+        String username = "admin";
+        String password = "Samsungs9+2019";
+        String dbname = "jdbc:mysql://vast-live-database.cwerhlnaxsvc.us-east-1.rds.amazonaws.com:3306/ezra?enabledTLSProtocols=TLSv1.2";
+//        String executeCmd = "mysqldump -u" + username + " -p" + password
+//                + " --add-drop-database -B " + dbname + " -r " + path;
+
+        String command = String.format("mysqldump -u%s -p%s --add-drop-table --databases %s -r %s",
+                username, password, dbname, path);
+        Process runtimeProcess;
+        try {
+//            System.out.println(executeCmd);//this out put works in mysql shell
+            Process process = Runtime.getRuntime().exec(command);
+            int processComplete = process.waitFor();
+
+//
+            System.out.println("processComplete" + processComplete);
+            if (processComplete == 0) {
+                System.out.println("Backup created successfully");
+
+            } else {
+                System.out.println("Could not create the backup");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
 
