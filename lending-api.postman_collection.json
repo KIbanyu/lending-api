@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "2f8c5b2c-ff5f-426e-94ac-ba73ff7fa2ee",
+		"name": "lending-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Martin\",\n    \"lastName\": \"Kibanyu\",\n    \"msisdn\": \"0734995657\",\n    \"nationalId\": \"29439460\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/customers/api/v1/register-customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"customers",
+						"api",
+						"v1",
+						"register-customer"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "create-customer",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Martin\",\n    \"lastName\": \"Kibanyu\",\n    \"msisdn\": \"0734995657\",\n    \"nationalId\": \"29439460\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/customers/api/v1/register-customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"customers",
+								"api",
+								"v1",
+								"register-customer"
+							]
+						}
+					},
+					"status": "Found",
+					"code": 302,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 28 Jun 2023 08:12:33 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"National ID already registered\",\n    \"status\": \"FOUND\"\n}"
+				}
+			]
+		},
+		{
+			"name": "get-customer-loan-limit",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8083/customers/api/v1/get-customer-limit?msisdn=0708410956",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"customers",
+						"api",
+						"v1",
+						"get-customer-limit"
+					],
+					"query": [
+						{
+							"key": "msisdn",
+							"value": "0708410956"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-customer-loans",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loan-request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 2500,\n    \"repaymentPeriod\": 30,\n    \"phoneNumber\": \"0723995657\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8083/loan/api/v1/loan-request",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"loan",
+						"api",
+						"v1",
+						"loan-request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loan-repayment",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}
