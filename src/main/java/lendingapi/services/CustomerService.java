@@ -63,7 +63,7 @@ public class CustomerService {
 
 
             //Validate phone number
-            if (!AppUtil.isPhoneNumberValid(request.getMsisdn())) {
+            if (!AppUtil.isInputValid(request.getMsisdn()) || !AppUtil.isPhoneNumberValid(request.getMsisdn())) {
                 response.put(LendingApiEnums.STATUS.label, HttpStatus.BAD_REQUEST);
                 response.put(LendingApiEnums.MESSAGE.label, "Msisdn is invalid");
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
@@ -143,19 +143,23 @@ public class CustomerService {
         response = new HashMap<>();
         try {
 
+            log.info(AppUtil.LINE);
+            log.info("CUSTOMER TO GET LIMIT FOR " + phoneNumber);
+            log.info(AppUtil.LINE);
+
+
             //Validate phone number
-            if (!AppUtil.isInputValid(phoneNumber) || !AppUtil.isNumberValid(phoneNumber)) {
+            //Validate phone number
+            if (!AppUtil.isInputValid(phoneNumber) || !AppUtil.isPhoneNumberValid(phoneNumber)) {
                 response.put(LendingApiEnums.STATUS.label, HttpStatus.BAD_REQUEST);
                 response.put(LendingApiEnums.MESSAGE.label, "Msisdn is invalid");
                 return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
             }
 
+
             //Parse phone number
             phoneNumber = AppUtil.parsePhoneNumber(phoneNumber);
 
-            log.info(AppUtil.LINE);
-            log.info("CUSTOMER TO GET LIMIT FOR " + phoneNumber);
-            log.info(AppUtil.LINE);
 
 
             //Check if the customer exist

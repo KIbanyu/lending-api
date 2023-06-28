@@ -66,12 +66,32 @@ public class LoanService {
             log.info("INCOMING LOAN REQUEST {}", new Gson().toJson(request));
             log.info(AppUtil.LINE);
 
+
+            //Validate phone number
+            if (!AppUtil.isInputValid(request.getPhoneNumber()) || !AppUtil.isPhoneNumberValid(request.getPhoneNumber())) {
+                response.put(LendingApiEnums.STATUS.label, HttpStatus.BAD_REQUEST);
+                response.put(LendingApiEnums.MESSAGE.label, "Msisdn is invalid");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+
+
             //Check if the request repayment period is in the repayment periods
             if (!repaymentPeriods.contains(request.getRepaymentPeriod())) {
                 response.put(LendingApiEnums.STATUS.label, HttpStatus.NOT_FOUND);
                 response.put(LendingApiEnums.MESSAGE.label, "Repayment period is invalid, use any of this " + repaymentPeriods);
                 return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
             }
+
+
+            //Check if amount is valid
+            if (request.getAmount().doubleValue() < 100) {
+                response.put(LendingApiEnums.STATUS.label, HttpStatus.BAD_REQUEST);
+                response.put(LendingApiEnums.MESSAGE.label, "You cannot borrow less than KSH 100");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+
+
+
 
             String phoneNumber = request.getPhoneNumber();
             phoneNumber = AppUtil.parsePhoneNumber(phoneNumber);
@@ -173,7 +193,22 @@ public class LoanService {
     public ResponseEntity<HashMap<String, Object>> repayLoan(LoanRepayment request) {
         response = new HashMap<>();
         try {
+
+
             //Validate loan request
+            if(!AppUtil.isInputValid(request.getLoanId())){
+                response.put(LendingApiEnums.STATUS.label, HttpStatus.BAD_REQUEST);
+                response.put(LendingApiEnums.MESSAGE.label, "Invalid loan id");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+
+            if (request.getAmountToRepay().intValue() <= 0){
+                response.put(LendingApiEnums.STATUS.label, HttpStatus.BAD_REQUEST);
+                response.put(LendingApiEnums.MESSAGE.label, "Invalid amount");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+
+
             //Check if loan exists
             Optional<LoansEntity> doesLoanExist = loansRepo.findById(request.getLoanId());
             if (doesLoanExist.isEmpty()) {
@@ -251,6 +286,15 @@ public class LoanService {
     public ResponseEntity<HashMap<String, Object>> getLoans(String phoneNumber) {
         response = new HashMap<>();
         try {
+
+
+            if (!AppUtil.isInputValid(phoneNumber) || !AppUtil.isPhoneNumberValid(phoneNumber)) {
+                response.put(LendingApiEnums.STATUS.label, HttpStatus.BAD_REQUEST);
+                response.put(LendingApiEnums.MESSAGE.label, "Msisdn is invalid");
+                return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+            }
+
+
 
             phoneNumber = AppUtil.parsePhoneNumber(phoneNumber);
 

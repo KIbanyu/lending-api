@@ -19,6 +19,10 @@ public class AppUtil {
     public static final String LINE = "---------------------------------------------\n";
 
     public static boolean isInputValid(String inputString) {
+
+        if (inputString == null){
+            return false;
+        }
         return !inputString.isBlank() && !inputString.isEmpty();
     }
 
@@ -27,6 +31,9 @@ public class AppUtil {
     }
 
     public static boolean isPhoneNumberValid(String inputString) {
+        if (!isNumberValid(inputString.replace("+", ""))){
+            return false;
+        }
 
         inputString = parsePhoneNumber(inputString);
 

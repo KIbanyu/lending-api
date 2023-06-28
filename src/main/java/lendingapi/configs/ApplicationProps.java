@@ -19,5 +19,8 @@ public class ApplicationProps {
     @Value("${lending-config.sweep-periods}")
     private int sweepPeriod;
 
+    @Value("${lending-config.test-phone-number}")
+    private String testPhoneNumber;
+
 
 }
