@@ -1,6 +1,8 @@
 package lendingapi.services;
 
 import com.google.gson.Gson;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import lendingapi.configs.ApplicationProps;
 import lendingapi.entities.CustomerEntity;
 import lendingapi.entities.LoanLimits;
@@ -376,7 +378,13 @@ public class LoanService {
 
 
     public void backupDb(){
-        AppUtil.backUpMySql();
+        try {
+            AppUtil.backUpMySql();
+        } catch (JSchException e) {
+            throw new RuntimeException(e);
+        } catch (SftpException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

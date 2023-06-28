@@ -3,6 +3,7 @@ package lendingapi.utils;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.jcraft.jsch.*;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -92,36 +93,35 @@ public class AppUtil {
     }
 
 
-    public static void backUpMySql(){
+    public static void backUpMySql()  throws JSchException, SftpException {
         File file = new File("mysqlBackup");
         File f = new File(file, new Timestamp(System.currentTimeMillis()).getTime() + ".sql");
-        String path = f.getPath();
-        String username = "admin";
-        String password = "Samsungs9+2019";
-        String dbname = "jdbc:mysql://vast-live-database.cwerhlnaxsvc.us-east-1.rds.amazonaws.com:3306/ezra?enabledTLSProtocols=TLSv1.2";
-//        String executeCmd = "mysqldump -u" + username + " -p" + password
-//                + " --add-drop-database -B " + dbname + " -r " + path;
 
-        String command = String.format("mysqldump -u%s -p%s --add-drop-table --databases %s -r %s",
-                username, password, dbname, path);
-        Process runtimeProcess;
-        try {
-//            System.out.println(executeCmd);//this out put works in mysql shell
-            Process process = Runtime.getRuntime().exec(command);
-            int processComplete = process.waitFor();
 
-//
-            System.out.println("processComplete" + processComplete);
-            if (processComplete == 0) {
-                System.out.println("Backup created successfully");
+        //Run the command to ge the sql dumps.
+        //On success, create a connection with the remote server
+        //Send the file to the server.
+         String remoteHost = "HOST_NAME_HERE";
+         String username = "USERNAME_HERE";
+         String password = "PASSWORD_HERE";
+        ChannelSftp channelSftp = setupJsch(username, password, remoteHost);
 
-            } else {
-                System.out.println("Could not create the backup");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        channelSftp.connect();
+        String localFile = f.getPath();
+        String remoteDir = "remote_sftp_test/";
+        channelSftp.put(localFile, remoteDir + "jschFile.txt");
+        channelSftp.exit();
 
+
+    }
+
+    private static ChannelSftp setupJsch(String username, String password, String remoteHost) throws JSchException {
+        JSch jsch = new JSch();
+        jsch.setKnownHosts("yourhosts here");
+        Session jschSession = jsch.getSession(username, remoteHost);
+        jschSession.setPassword(password);
+        jschSession.connect();
+        return (ChannelSftp) jschSession.openChannel("sftp");
     }
 
 

@@ -23,9 +23,9 @@ public class LendingApiCronJobs {
         smsService.sendSms();
     }
 
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "* */45 12 * * *")
     public void backUpDb() {
-//        loanService.backupDb();
+        loanService.backupDb();
     }
 
 
