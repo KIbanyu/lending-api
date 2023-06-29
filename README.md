@@ -12,11 +12,11 @@ About the API
 - Another cron job runs every 30 seconds to send sms to the customer upon repayment or borrowing of the loan.
 
 Below are the available endpoints
-- Create customer -> {url}/customers/api/v1/register-customer
-- Get customer loan limit -> {url}/customers/api/v1/get-customer-limit?msisdn={mobileNumber}
-- Get customer loans -> {url}/loan/api/v1/get-loans?msisdn={mobileNumber}
-- Request loan -> {url}/loan/api/v1/loan-request
-- Repay loan -> {url}/loan/api/v1/loan-repayment
+- Create customer -> {ip:port}/customers/api/v1/register-customer
+- Get customer loan limit -> {ip:port}/customers/api/v1/get-customer-limit?msisdn={mobileNumber}
+- Get customer loans -> {ip:port}/loan/api/v1/get-loans?msisdn={mobileNumber}
+- Request loan -> {ip:port}/loan/api/v1/loan-request
+- Repay loan -> {ip:port}/loan/api/v1/loan-repayment
 
 There is attached postman collection for the same that can be imported to a postman for testing.
 
